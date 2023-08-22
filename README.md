@@ -7,7 +7,7 @@ Please cite this site ( https://github.com/nielsthaumann/nameeg ) if you are pub
 ----------------------------------------
 ## Automatic sound onset detection with noise suppression
 
-The algorithm includes suppression of noise in the audio medium and vibrato/tremolo 
+The algorithm includes suppression of noise in the audio medium and vibrato/tremolo </br>
 and the ability to detect slow attacks. 
 
 Use as: 
@@ -16,7 +16,7 @@ onsets = name_ons(audio)
 
 to estimate sound onsets in an audio file, where, e.g., audio = 'C:\folder\audio.wav'
 
-The onsets are given as an array of time points in seconds and saved to an output file 
+The onsets are given as an array of time points in seconds and saved to an output file </br>
 (by default with the same path and name as the input file added the ending ..._onsets.mat).
 
 ----------------------------------------
