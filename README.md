@@ -15,3 +15,19 @@ to estimate sound onsets in an audio file, where, e.g., audio = 'C:\folder\audio
 
 The onsets are given as an array of time points in seconds and saved to an output file 
 (by default with the same path and name as the input file added the ending ..._onsets.mat)
+
+## Sound onset editor
+
+Call the editor from the Matlab Command Window and hit Enter: 
+>> name_onsed
+
+Use this editor to combine the speed of automatic sound onset detection 
+with the reliability of manual editing.
+
+Load an audio file (.wav, .flac, .mp3, .m4a, .mp4, .ogg) for auditory validation
+and visual inspection of energy increases in a time-frequency representation. 
+
+Load and save a .mat file with the variable 'onsets' containing a numerical vector 
+with the onsets stored in seconds. 
+
+Changes are saved automatically (along with the undo/redo history). 
