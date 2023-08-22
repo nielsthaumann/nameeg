@@ -7,6 +7,9 @@ Please cite this site ( https://github.com/nielsthaumann/nameeg ) if you are pub
 ----------------------------------------
 ## Automatic sound onset detection with noise suppression
 
+The algorithm includes suppression of noise in the audio medium and vibrato/tremolo 
+and the ability to detect slow attacks. 
+
 Use as: 
 
 onsets = name_ons(audio)  
@@ -14,15 +17,16 @@ onsets = name_ons(audio)
 to estimate sound onsets in an audio file, where, e.g., audio = 'C:\folder\audio.wav'
 
 The onsets are given as an array of time points in seconds and saved to an output file 
-(by default with the same path and name as the input file added the ending ..._onsets.mat)
+(by default with the same path and name as the input file added the ending ..._onsets.mat).
 
+----------------------------------------
 ## Sound onset editor
-
-Call the editor from the Matlab Command Window and hit Enter: 
->> name_onsed
 
 Use this editor to combine the speed of automatic sound onset detection 
 with the reliability of manual editing.
+
+Call the editor from the Matlab Command Window and hit Enter: </br>
+name_onsed
 
 Load an audio file (.wav, .flac, .mp3, .m4a, .mp4, .ogg) for auditory validation
 and visual inspection of energy increases in a time-frequency representation. 
