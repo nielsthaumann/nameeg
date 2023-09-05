@@ -1,4 +1,4 @@
-function [onsets, ons] = name_ons(audio, varargin)
+function [onsets, intensity, ons] = name_ons(audio, varargin)
 
 % Automatic sound onset detection with noise suppression
 % 
@@ -81,10 +81,11 @@ function [onsets, ons] = name_ons(audio, varargin)
 % 
 % name_ons(..., 'echange', echange)       save spectral energy change analyses (true or false) (default is false)
 % 
-% [onsets, ons] = name_ons(audio)         also stores settings and noise estimates in ons
+% [onsets, intensity, ons] = name_ons(audio)    also stores the intensity increase (dB) of each sound onset 
+%                                               and the settings and noise estimates in ons
 % 
 % 
-% Beta version 20230607. Developed at Center for Music in the Brain by Niels Trusbak Haumann. https://musicinthebrain.au.dk/ 
+% Beta version 20230905. Developed at Center for Music in the Brain by Niels Trusbak Haumann. https://musicinthebrain.au.dk/ 
 % 
 % The onset detection with noise suppression (ONS) is part of the Naturalistic Auditory MEG/EEG (NAME) package. https://github.com/nielsthaumann/nameeg
 % 
@@ -366,6 +367,10 @@ disp(['   - ',num2str(length(eincr)),' local energy increases were retained abov
 
 % Collect the detected sound onsets as the start time points of the energy increases in seconds
 onsets = (eincr(:,1)-1)/srtfr;
+intensity = []; % Store the intensity increase (dB) of each sound onset
+for j=1:size(eincr,1)
+    intensity(j,1) = max( eincrcurve( eincr(j,1):eincr(j,2) ) ); 
+end
 disp('Completed detecting sound onsets.')
 
 if visualize
