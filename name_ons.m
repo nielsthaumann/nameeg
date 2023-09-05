@@ -444,7 +444,9 @@ end
 
 ons = p.Results; % Save all the applied options in ons structure
 ons.audio = audio; % Add the input audio path and file name
-ons.noise_audmed = noise_audmed; % Add the audio medium noise amplitude estimates in dB (1 = Brownian (red), 2 = Pink, 3 = Blue, 4 = Violet, 5 = White)
+if ns
+    ons.noise_audmed = noise_audmed; % Add the audio medium noise amplitude estimates in dB (1 = Brownian (red), 2 = Pink, 3 = Blue, 4 = Violet, 5 = White)
+end
 
 % If chosen, save Matlab vector with the detected sound onsets, energy change analyses, and the settings
 if echange
