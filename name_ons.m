@@ -81,11 +81,11 @@ function [onsets, intensity, ons] = name_ons(audio, varargin)
 % 
 % name_ons(..., 'echange', echange)       save spectral energy change analyses (true or false) (default is false)
 % 
-% [onsets, intensity, ons] = name_ons(audio)    also stores the intensity increase (dB) of each sound onset 
+% [onsets, intensity, ons] = name_ons(audio)    also stores the peak intensity (dB) at each sound onset 
 %                                               and the settings and noise estimates in ons
 % 
 % 
-% Beta version 20230905. Developed at Center for Music in the Brain by Niels Trusbak Haumann. https://musicinthebrain.au.dk/ 
+% Beta version 20230906. Developed at Center for Music in the Brain by Niels Trusbak Haumann. https://musicinthebrain.au.dk/ 
 % 
 % The onset detection with noise suppression (ONS) is part of the Naturalistic Auditory MEG/EEG (NAME) package. https://github.com/nielsthaumann/nameeg
 % 
@@ -367,11 +367,17 @@ disp(['   - ',num2str(length(eincr)),' local energy increases were retained abov
 
 % Collect the detected sound onsets as the start time points of the energy increases in seconds
 onsets = (eincr(:,1)-1)/srtfr;
-intensity = []; % Store the intensity increase (dB) of each sound onset
-for j=1:size(eincr,1)
-    intensity(j,1) = max( eincrcurve( eincr(j,1):eincr(j,2) ) ); 
-end
 disp('Completed detecting sound onsets.')
+
+% Store the peak intensity (dB) at each sound onset 
+intensity = zeros(size(onsets)); 
+for j=1:size(eincr,1)
+    
+    timesamples = round(eincr(j,1)*srtime/srtfr):round(eincr(j,2)*srtime/srtfr); % Onset time samples in audio
+    timesamples( timesamples < 1 | timesamples > size(inputWave,1) ) = []; % Ensure the onset time samples are between the first and last audio sample
+    intensity(j,1) = 20*log10( max(max(abs( inputWave( timesamples , :) ))) ); % Maximum intensity (dB) across onset time samples and channels
+
+end
 
 if visualize
     
@@ -389,11 +395,11 @@ if visualize
     figure('color','w')
     plot(time, eincrcurve, 'r')
     hold on
-    plot(time, int,'k')
-    legend({'Sound intensity curve (dB)','Sound intensity threshold (dB)'})
+    line([time(1) time(end)], [int int], 'color','k')
+    legend({'Sound intensity curve (dB)','Intensity increase threshold (dB)'})
     xlabel('Time (seconds)')
-    ylabel('Sound intensity (dB)')
-    title(['Sound intensity increase for each detected sound onset in ''',outname,''''],'interpreter','none')
+    ylabel('Sound intensity (dB) relative to the onset')
+    title(['Sound intensity curves for each detected sound onset in ''',outname,''''],'interpreter','none')
 end
 
 % Save an audio file with the detected sound onsets marked with audio feedback
