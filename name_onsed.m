@@ -159,7 +159,7 @@ if exist(spectrumfile,'file')~=2 % If previously created TFR data is not found i
         disp(['Performing fast Fourier transform of ',num2str(length(ons.frequencies)),' frequency bands in ',num2str(length(frameoffsets)),' time frames in channel ',num2str(c), ' of ',num2str(size(inputWave,2)),'.'])
         
         % Parallel FFT calcuation across time windows
-        specttemp = fft( repmat(bhwindow, [1, length(frameoffsets)]) .* reshape( inputWavezp(index, c) , [length(frameaddsamples), length(frameoffsets)]) );
+        specttemp = fft( repmat(bhwindow(:), [1, length(frameoffsets)]) .* reshape( inputWavezp(index, c) , [length(frameaddsamples), length(frameoffsets)]) );
         
         % Obtain the single-sided amplitude spectra
         specttemp = abs(specttemp/ons.fftSize);
