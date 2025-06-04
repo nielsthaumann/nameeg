@@ -14,32 +14,32 @@ function noise_audmed = name_ns(audio, varargin)
 % 
 % Optional arguments for time frequency representation (TFR):
 % 
-% name_on(..., 'framedur', framedur)   specifies the time frame duration in milliseconds 
+% name_ns(..., 'framedur', framedur)   specifies the time frame duration in milliseconds 
 %                                       for the TFR analysis (default = 100)
 % 
-% name_on(..., 'srtfr', srtfr)         specifies the sampling rate for the TFR in Hz (default = 100)
+% name_ns(..., 'srtfr', srtfr)         specifies the sampling rate for the TFR in Hz (default = 100)
 %
 % 
 % Optional arguments for audio medium noise suppression:
 % 
-% name_on(..., 'decol', decol)   defines the color of the estimated noise with decrease per frequency, 
+% name_ns(..., 'decol', decol)   defines the color of the estimated noise with decrease per frequency, 
 %                                where decol is either 'brown' or 'pink' (default = 'brown')
 % 
-% name_on(..., 'debeg', debeg)   the decrease per frequency begins after the defined Hz (default = 1)
+% name_ns(..., 'debeg', debeg)   the decrease per frequency begins after the defined Hz (default = 1)
 % 
-% name_on(..., 'incol', incol)   defines the color of the estimated noise with increase per frequency, 
+% name_ns(..., 'incol', incol)   defines the color of the estimated noise with increase per frequency, 
 %                                where incol is either 'blue' or 'violet' (default = 'violet')
 % 
-% name_on(..., 'lowfreq', lowfreq)       defines the low frequency extreme range in Hz for noise
+% name_ns(..., 'lowfreq', lowfreq)       defines the low frequency extreme range in Hz for noise
 %                                        intensity estimate as [minimum maximum] (default = [0 10])
 % 
-% name_on(..., 'highfreq', highfreq)     defines the high frequency extreme range in Hz for noise
+% name_ns(..., 'highfreq', highfreq)     defines the high frequency extreme range in Hz for noise
 %                                        intensity estimate as [minimum maximum] (default = [20000 22050])
 % 
-% name_on(..., 'dynbuffer', dynbuffer)   defines added dB white noise as noise floor buffer
+% name_ns(..., 'dynbuffer', dynbuffer)   defines added dB white noise as noise floor buffer
 %                                        to account for variance in noise over time (default = 0)
 % 
-% name_on(..., 'mono', mono)     defines whether noise is estimated for the average TFRs across channels,
+% name_ns(..., 'mono', mono)     defines whether noise is estimated for the average TFRs across channels,
 %                                where mono is either true or false (default = true)
 % 
 % 
@@ -58,7 +58,7 @@ function noise_audmed = name_ns(audio, varargin)
 % 
 % name_ns(..., 'bitdepth', bitdepth)     valid audio bit depths are 8, 16, 24, 32, or 64. The default is 16.
 % 
-% noise_audmed = name_on(audio)          noise_audmed shows the audio medium noise amplitude estimates in dB 
+% noise_audmed = name_ns(audio)          noise_audmed shows the audio medium noise amplitude estimates in dB 
 %                                        (for 1 = Brownian (red), 2 = pink, 3 = blue, 4 = violet, and 5 = white noise)
 % 
 % 
