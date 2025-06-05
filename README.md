@@ -4,35 +4,38 @@ Under development at Center for Music in the Brain ( https://musicinthebrain.au.
 
 Please cite this site ( https://github.com/nielsthaumann/nameeg ) if you are publishing results using functions from this package. 
 
+<br></br>
+
 ----------------------------------------
 ## Automatic sound onset detection with noise suppression
 
-Automatic detection of sound onsets in naturalistic music
-presents a methodologically complicated challenge, as the
-audio signal typically contains multiple overlapping voices
-with complex spectral-temporal patterns and background
-noise (e.g., [Smith & Fraser, 2004](https://doi.org/10.1109/TNN.2004.832831); [Thoshkahna &
-Ramakrishnan, 2008](http://dx.doi.org/10.1109/ICOSP.2008.4697399); [Alías et al., 2016](https://doi.org/10.3390/app6050143)). 
-An additional challenge in measuring evoked responses 
-to sound onsets in recorded music is the brevity of the 
-auditory cortical evoked responses, which last only a few tens of 
-milliseconds reversing polarity, thereby requiring high temporal accuracy
-([Haumann et al., 2021](https://doi.org/10.1016/j.brainres.2020.147248)). 
-
-<p align="center">
-  <image width="700" height="526" src="https://github.com/nielsthaumann/nameeg/blob/main/01%20mironsets%20accuracy%20improvement.png">
-</p>
-
-Use as: 
+Use the onset detection function with the following command: 
 
 onsets = name_ons(audio)  
 
 to estimate sound onsets in an audio file, where, e.g., audio = 'C:\folder\audio.wav'
 
 The onsets are given as an array of time points in seconds.
+<br></br>
+Automatic detection of sound onsets in naturalistic music
+presents a methodologically complicated challenge, 
+as the audio signal typically contains multiple overlapping voices 
+with complex spectral-temporal patterns and background noise 
+(e.g., [Smith & Fraser, 2004](https://doi.org/10.1109/TNN.2004.832831); [Thoshkahna &
+Ramakrishnan, 2008](http://dx.doi.org/10.1109/ICOSP.2008.4697399); [Alías et al., 2016](https://doi.org/10.3390/app6050143)). <br>
 
+An additional challenge in measuring evoked responses to sound onsets
+in recorded music is the brevity of the auditory cortical evoked responses,
+which last only a few tens of milliseconds reversing polarity, 
+thereby requiring high temporal accuracy
+([Haumann et al., 2021](https://doi.org/10.1016/j.brainres.2020.147248)). 
 
 The algorithm includes suppression of noise in the audio medium. 
+
+<p align="center">
+  <image width="700" height="526" src="https://github.com/nielsthaumann/nameeg/blob/main/01%20mironsets%20accuracy%20improvement.png">
+</p>
+
 Brownian noise affecting low frequency bands in the audio
 is suppressed with the non-negative least squares
 function (lsqnonneg) to fit a 1/f curve to the average
@@ -43,7 +46,7 @@ amplitude spectrum.
 </p>
 
 The fitted curve serves as a noise floor
-threshold, below which all audio can be removed. 
+threshold, below which all audio is removed. 
 
 <p align="center">
   <image width="700" height="526" src="https://github.com/nielsthaumann/nameeg/blob/main/03%20noise%20suppression.png">
@@ -52,23 +55,24 @@ threshold, below which all audio can be removed.
 The automatic onset detection is performed using finetuned functions
 from the Music Information Retrieval
 (MIR) toolbox for Matlab ([Lartillot &
-Toiviainen, 2007](https://ismir2007.ismir.net/proceedings/ISMIR2007_p127_lartillot.pdf)). 
-The mirspectrum function was used with
+Toiviainen, 2007](https://ismir2007.ismir.net/proceedings/ISMIR2007_p127_lartillot.pdf)). <br></br>
+The mirspectrum function is used with
 a 100 ms frame duration and 10 ms hop size, applying the
 'Blackmann-Harris’ window to suppress scalloping loss in
-the Fourier transform. The ‘Terhardt’ filter ([Terhardt, 1979](https://doi.org/10.1016/0378-5955(79)90025-x);
+the Fourier transform. <br></br>
+The ‘Terhardt’ filter ([Terhardt, 1979](https://doi.org/10.1016/0378-5955(79)90025-x);
 [Pampalk et al., 2004](https://doi.org/10.1162/014892604323112248)) 
 is applied to simulate the effects of 
-the human outer ear on the perceived spectra. Subsequently,
-spectro-temporal amplitude changes are computed using
+the human outer ear on the perceived spectra. <br></br>
+Spectro-temporal amplitude changes are computed using
 the mirflux function, incorporating the ‘Emerge’ filter
 ([Lartillot et al., 2013](https://www.academia.edu/download/121050832/olivier_lartillot_-_estimating_tempo_and_metrical_features_by_tracking_the_whole_metrical_hierarchy.pdf)) 
-to minimize the influence of tremolo and vibrato. 
-Sound onsets were then identified at peak values in the spectral 
+to minimize the influence of tremolo and vibrato. <br></br>
+Sound onsets are then identified at peak values in the spectral 
 flux using the mirevents function with the default settings.
 
 Please make sure that a recent version of the MIRtoolbox is installed. 
-(This function was tested with MIRtoolbox 1.8.1.)
+(This function was tested with MIRtoolbox 1.8.1.)<br></br>
 E.g, visit: https://www.jyu.fi/hytk/fi/laitokset/mutku/en/research/materials/mirtoolbox
 
 ----------------------------------------
