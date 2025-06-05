@@ -30,7 +30,7 @@ thereby requiring high temporal accuracy
 ([Haumann et al., 2021](https://doi.org/10.1016/j.brainres.2020.147248)). 
 
 <p align="center">
-  <image width="700" height="700" src="https://ars.els-cdn.com/content/image/1-s2.0-S0006899320306065-ga1_lrg.jpg">
+  <image width="700" height="700" src="https://github.com/user-attachments/assets/a90f1238-6cd4-43d3-b54a-a65faf2e12fb">
 </p>
 <p align="center">
   <a href=https://doi.org/10.1016/j.brainres.2020.147248> (Haumann et al., 2021, "Extracting human cortical responses to sound onsets <br> and acoustic feature changes in real music, and their relation to event rate",<i> Brain Research</i>)</br>
