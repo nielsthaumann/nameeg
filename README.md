@@ -17,6 +17,10 @@ to estimate sound onsets in an audio file, where, e.g., audio = 'C:\folder\audio
 
 The onsets are given as an array of time points in seconds.
 
+Please make sure that a recent version of the MIRtoolbox is installed. 
+(This function was tested with MIRtoolbox 1.8.1.)
+E.g, visit: https://www.jyu.fi/hytk/fi/laitokset/mutku/en/research/materials/mirtoolbox
+
 ----------------------------------------
 ## Sound onset editor
 
