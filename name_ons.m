@@ -10,7 +10,7 @@ function [onsets, intensity, ons] = name_ons(audio, varargin)
 % 
 % The onsets are given as an array of time points in seconds.  
 % 
-% The algorithm includes suppression of noise in the audio medium
+% The algorithm includes suppression of noise in the audio medium. 
 % 
 % 
 % Optional arguments for time frequency representation (TFR):
@@ -85,7 +85,7 @@ function [onsets, intensity, ons] = name_ons(audio, varargin)
 %                                               and the settings and noise estimates in ons
 % 
 % 
-% Please make sure that a recent version of the MIRtoolbox (Lartillot and Toiviai) is installed. 
+% Please make sure that a recent version of the MIRtoolbox is installed. 
 % (This function was tested with MIRtoolbox 1.8.1.)
 % E.g, visit: https://www.jyu.fi/hytk/fi/laitokset/mutku/en/research/materials/mirtoolbox
 % 
