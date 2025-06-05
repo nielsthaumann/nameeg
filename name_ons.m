@@ -8,12 +8,9 @@ function [onsets, intensity, ons] = name_ons(audio, varargin)
 % 
 % to estimate sound onsets in an audio file, where, e.g., audio = 'C:\folder\audio.wav'
 % 
-% The onsets are given as an array of time points in seconds and saved to an output file 
-% (by default with the same path and name as the input file added the ending ..._onsets.mat)
+% The onsets are given as an array of time points in seconds.  
 % 
-% 
-% The algorithm includes suppression of noise in the audio medium and vibrato/tremolo 
-% and the ability to detect slow attacks
+% The algorithm includes suppression of noise in the audio medium
 % 
 % 
 % Optional arguments for time frequency representation (TFR):
@@ -52,18 +49,23 @@ function [onsets, intensity, ons] = name_ons(audio, varargin)
 % 
 % Optional arguments for vibrato and tremolo suppression:
 % 
-% name_ons(..., 'timesmooth', timesmooth)  defines time-smoothing with lowpass at defined maximum Hz
-%                                          to suppress tremolo (default = 20) (cf. Lartillot & Grandjean 2019)
+% name_ons(..., 'tsm', tsm)       defines whether time-smoothing (17 Hz lowpass filter) should be applied
+%                                 to suppress vibrato/tremolo (Lartillot & Grandjean 2019), 
+%                                 where tsm is either true or false (default = true)
 % 
-% name_ons(..., 'int', int)       defines minimum intensity increase threshold in dB
-%                                 to suppress vibrato/tremolo (default = 1)
+% name_ons(..., 'cthr', cthr)     defines minimum intensity increase threshold 
+%                                 to suppress vibrato/tremolo in normalized values between 0-1 
+%                                 (default = 0.01)
 % 
-% name_ons(..., 'soa', soa)       defines minimum sound onset asynchrony in ms (default = 50)
-% 
-% name_ons(..., 'dur', dur)       defines minimum sound onset duration in ms (default = 0)
+% name_ons(..., 'thr', thr)       defines minimum intensity threshold 
+%                                 to suppress background noise in normalized values between 0-1 
+%                                 (default = 0)
 % 
 % 
 % Optional arguments for the output: 
+% 
+% name_ons(..., 'onsave', onsave)         save onsets time points to MAT-file (true or false) 
+%                                         (default is false) (e.g., use true for batch processing with no interruptions)
 % 
 % name_ons(..., 'outpath', outpath)       output path (default is same as the path with the input audio)
 %                                         ( e.g., outpath = 'C:\folder\' )
@@ -79,13 +81,27 @@ function [onsets, intensity, ons] = name_ons(audio, varargin)
 % name_ons(..., 'outsuffix', outsuffix)   text string added to ending of output files (e.g., for testing specific settings)
 %                                         (default is '') ( e.g., outsuffix = '_onsets_auto' )
 % 
-% name_ons(..., 'echange', echange)       save spectral energy change analyses (true or false) (default is false)
-% 
 % [onsets, intensity, ons] = name_ons(audio)    also stores the peak intensity (dB) at each sound onset 
 %                                               and the settings and noise estimates in ons
 % 
 % 
-% Beta version 20230906. Developed at Center for Music in the Brain by Niels Trusbak Haumann. https://musicinthebrain.au.dk/ 
+% Please make sure that a recent version of the MIRtoolbox (Lartillot and Toiviai) is installed. 
+% (This function was tested with MIRtoolbox 1.8.1.)
+% E.g, visit: https://www.jyu.fi/hytk/fi/laitokset/mutku/en/research/materials/mirtoolbox
+% 
+% Please cite this paper when applying name_ons, which calls MIRtoolbox functions: 
+% Lartillot, O., & Toiviainen, P. (2007). A Matlab Toolbox for Musical
+% Feature Extraction From Audio. International Conference on Digital
+% Audio Effects. 
+% 
+% Please also cite this paper when using the time-smooting (tsm) option: 
+% Lartillot, O., Cereghetti, D., Eliard, K., Trost, W. J., Rappaz, M.-A., &
+% Grandjean, D. (2013). Estimating tempo and metrical features by
+% tracking the whole metrical hierarchy. Paper presented at the The 3rd
+% International Conference on Music & Emotion, Jyväskylä, Finland,
+% June 11-15, 2013. 
+% 
+% Beta version 20250605. Developed at Center for Music in the Brain by Niels Trusbak Haumann. https://musicinthebrain.au.dk/ 
 % 
 % The onset detection with noise suppression (ONS) is part of the Naturalistic Auditory MEG/EEG (NAME) package. https://github.com/nielsthaumann/nameeg
 % 
@@ -102,14 +118,13 @@ addOptional(p, 'lowfreq', [0 10]) % Frequency range in Hz for low frequency extr
 addOptional(p, 'highfreq', [20000 22050]) % Frequency range in Hz for high frequency extreme ([minimum maximum])
 addOptional(p, 'dynbuffer', 0) % Added defined dB white noise as noise floor buffer to account for variance in noise over time (default = 0)
 addOptional(p, 'mono', true) % (by default the noise is estimated for the average TFRs across channels)
-addOptional(p, 'timesmooth', 20) % Time smooting to suppress tremolo (Hz) (lowpass at defined maximum Hz) (cf. Lartillot & Grandjean 2019) (default = 20)
-addOptional(p, 'int', 1) % Minimum intensity increase in dB for onset detection above vibrato/tremolo level (default = 1)
-addOptional(p, 'soa', 50) % Minimum SOA (sound onset-asynchrony) in ms for note onset detection (default = 50)
-addOptional(p, 'dur', 0) % Minimum duration of energy increase in ms until end of increase or new increase (default = 0)
+addOptional(p, 'tsm', true) % Time smooting to suppress tremolo, true or false (Lartillot & Grandjean 2019) (default = true)
+addOptional(p, 'cthr', 0.01) % Minimum intensity increase threshold to suppress vibrato/tremolo in normalized values between 0-1 (default = 0.01)
+addOptional(p, 'thr', 0) % Minimum intensity threshold to suppress background noise in normalized values between 0-1 (default = 0)
 [inputpath, ~, ~] = fileparts(audio);
+addOptional(p, 'onsave', false) % (by default saving onsets to MAT file is false)
 addOptional(p, 'outpath', [inputpath,filesep]) % Output path (default is same as the path with the input audio)
 addOptional(p, 'outsuffix', '') % Text string added to ending of output files (e.g., for testing specific settings) (default is '')
-addOptional(p, 'echange', false) % Save spectral energy change analyses (true or false) (default is false)
 addOptional(p, 'visualize', false) % Visualization of onset intensities and detected onset times on spectral change curve (true or false) (default is false)
 addOptional(p, 'audiosave', false) % Save audio file with onsets marked by 50 ms 1000 Hz sine tones (true or false) (default is false)
 addOptional(p, 'overwrite', false) % (by default overwriting existing files is false)
@@ -117,6 +132,8 @@ parse(p, varargin{:})
 if ~ischar(audio)
     error('audio variable must be a character array (string).')
 end
+[outpath, outname, outtype] = fileparts(audio); % Store audio filname and filetype
+outpath = [outpath, filesep]; 
 framedur = p.Results.framedur; % Time frame duration in milliseconds for the TFR analysis (default = 100)
 if ~isnumeric(framedur)  || length(framedur) ~= 1
     error('framedur variable must be a positive value. The default is 100.')
@@ -135,6 +152,10 @@ ns = p.Results.ns; % Apply audio medium noise suppression, true or false (defaul
 if ~islogical(ns) || length(ns) ~= 1
     error('ns variable must be either true or false. The default is true.')
 end
+onsave = p.Results.onsave; 
+if ~islogical(onsave) || length(onsave) ~= 1
+    error('onsave variable must be either true or false. The default is false.')
+end
 overwrite = p.Results.overwrite; 
 if ~islogical(overwrite) || length(overwrite) ~= 1
     error('overwrite variable must be either true or false. The default is false.')
@@ -147,33 +168,23 @@ lowfreq = p.Results.lowfreq;
 highfreq = p.Results.highfreq;
 dynbuffer = p.Results.dynbuffer;
 mono = p.Results.mono;
-timesmooth = p.Results.timesmooth; % Time smooting to suppress tremolo (Hz) (lowpass at defined maximum Hz) (cf. Lartillot & Grandjean 2019) (default = 20)
-if ~isnumeric(timesmooth)  || length(timesmooth) ~= 1
-    error('timesmooth variable must be a positive value. The default is 20.')
+tsm = p.Results.tsm; % Time smooting to suppress tremolo, true or false (Lartillot & Grandjean 2019) (default = true)
+if ~islogical(tsm) || length(tsm) ~= 1
+    error('tsm variable must be either true or false. The default is true.')
 end
-if timesmooth <= 0
-    error('timesmooth variable must be a positive value. The default is 20.')
+cthr = p.Results.cthr; % Minimum intensity increase threshold to suppress vibrato/tremolo in normalized values between 0-1 (default = 0.01)
+if ~isnumeric(cthr)  || length(cthr) ~= 1
+    error('cthr variable must be a positive value between 0 and 1. The default is 0.01.')
 end
-int = p.Results.int; % Minimum intensity increase in dB for onset detection above vibrato/tremolo level (default = 1)
-if ~isnumeric(int)  || length(int) ~= 1
-    error('int variable must be a positive value. The default is 1.')
+if cthr < 0 || cthr > 1 
+    error('cthr variable must be a positive value between 0 and 1. The default is 0.01.')
 end
-if int <= 0
-    error('int variable must be a positive value. The default is 1.')
+thr = p.Results.thr; % Minimum intensity threshold to suppress background noise in normalized values between 0-1 (default = 0)
+if ~isnumeric(thr)  || length(thr) ~= 1
+    error('thr variable must be a positive value between 0 and 1. The default is 0.01.')
 end
-soa = p.Results.soa; % Minimum SOA (sound onset-asynchrony) in ms for note onset detection (default = 50)
-if ~isnumeric(soa)  || length(soa) ~= 1
-    error('soa variable must be a positive value. The default is 50.')
-end
-if soa <= 0
-    error('soa variable must be a positive value. The default is 50.')
-end
-dur = p.Results.dur; % Minimum duration of energy increase in ms until end of increase or new increase (default = 0)
-if ~isnumeric(dur)  || length(dur) ~= 1
-    error('dur variable must be a positive value. The default is 0.')
-end
-if dur < 0
-    error('dur variable must be a positive value. The default is 0.')
+if thr < 0 || thr > 1 
+    error('thr variable must be a positive value between 0 and 1. The default is 0.01.')
 end
 outpath = p.Results.outpath; % Output path (default is same as the path with the input audio)
 if ~ischar(outpath)
@@ -182,10 +193,6 @@ end
 outsuffix = p.Results.outsuffix; % Text string added to ending of output files (e.g., for testing specific settings) (default is '')
 if ~ischar(outsuffix)
     error('outsuffix variable must be a character array (string).')
-end
-echange = p.Results.echange; % Save spectral energy change analyses (true or false) (default is false)
-if ~islogical(echange) || length(echange) ~= 1
-    error('echange variable must be either true or false. The default is false.')
 end
 visualize = p.Results.visualize; % Visualization of onset intensities and detected onset times on spectral change curve (true or false) (default is false)
 if ~islogical(visualize) || length(visualize) ~= 1
@@ -197,227 +204,122 @@ if ~islogical(audiosave) || length(audiosave) ~= 1
 end
 
 
-%% Load the audio file
-
-disp(['Loading the audio file ''',audio,'''.'])
-[~, outname, outtype] = fileparts(audio);
-[ inputWave, srtime ] = audioread( audio );
-
-
-%%  Time-frequency analysis
-
-disp('Time-frequency analysis with vibrato suppression.')
-fftsize = 2*round(framedur/1000*srtime/2); % FFT frame size
-% Calculate the TFR
-[tfr_a, ~, ~, srtfr, freq, ~] = name_tfr(inputWave, srtime, 'frametime','center', 'srtfr',srtfr, 'framesize',fftsize);
-
-
 %% Suppress audio medium noise spectrum
 
 if ns
-    disp('Suppressing audio medium noise...')
-    [tfr_a, noise_audmed] = name_noise_audmed(tfr_a, freq, 'overwrite',overwrite , 'decol',decol, 'debeg', debeg, 'incol', incol, 'lowfreq', lowfreq, 'highfreq', highfreq, 'dynbuffer', dynbuffer, 'mono', mono, 'visualize', visualize);
-end
-
-
-%% Convert the TFR to mono version
-
-disp('Converting the TFR to mono version.')
-tfr_a = mean(tfr_a,3); % Convert the TFR to mono version
-
-
-%% Use time-smoothing to counteract tremolo (cf. Lartillot & Grandjean 2019)
-
-disp('Suppressing tremolo.')
-tsmoothsamples = round( ( srtfr / timesmooth)/2 ); % Find half cycle samples for the defined maximum Hz
-shiftsize = round(srtime/srtfr); % Time frame shift size in relation to audio time samples
-nframes = floor( size(inputWave,1)/shiftsize); % Number of time frames
-tfr_a_smooth = zeros(size(tfr_a));
-for j=1:nframes % Loop over time frames
-    
-    % Use the mean of the preceding half cycle time samples for the defined maximum Hz
-    if j < tsmoothsamples % (If it's the beginning with less than half cycle available, add zeros first)
-        tfr_a_smooth(:,j) = mean( horzcat( zeros(size(tfr_a,1),tsmoothsamples-j), tfr_a(:,1:j) ) , 2 );
+    if overwrite == false && exist([outpath, outname,'_ns',outtype],'file')
+        % Skip if not allowed to overwrite existing files and the noise suppressed audio file already exists
+        
+        disp(['Using already existing audio file with noise suppression: ',outpath, outname,'_ns',outtype])
+        
     else
-        tfr_a_smooth(:,j) = mean( tfr_a(:,j-(tsmoothsamples-1):j) , 2 );
+        disp('Suppressing audio medium noise...')
+        noise_audmed = name_ns(audio, 'framedur', framedur, 'srtfr', srtfr, 'decol',decol, 'debeg', debeg, 'incol', incol, 'lowfreq', lowfreq, 'highfreq', highfreq, 'dynbuffer', dynbuffer, 'mono', mono, 'visualize', visualize, 'outpath', outpath, 'overwrite', overwrite);
     end
 end
-tfr_a = tfr_a_smooth; clear('tfr_a_smooth');
 
 
-%% Visualize the TFR
+%% Sound onset detection using finetuned functions from the Music Information Retrieval (MIR) toolbox
 
-if visualize
-    figure('color','w'), imagesc(20*log10(tfr_a)); set(gca,'ydir','normal'), set(gca,'clim',[-120 max(max(20*log10(tfr_a)))])
-    title(['Time frequency representation [',outname,']'],'interpreter','none')
-    set(gca,'xtick', 1:0.1*srtfr:size(tfr_a,2))
-    set(gca,'xticklabel', 0:0.1:(size(tfr_a,2)-1)/srtfr), xlabel('Time (seconds)')
-    set(gca,'ytick', 1:round(1000/(1/(fftsize/srtime))):size(tfr_a,1))
-    set(gca,'yticklabel', 0:1000:srtime/2), ylabel('Frequency (Hz)')
+if isempty(which('miraudio')) || isempty(which('mirspectrum')) || isempty(which('mirflux')) || isempty(which('mirevents')) 
+    error('Please make sure that a recent version of the MIRtoolbox (Lartillot and Toiviai) is installed. (This function was tested with MIRtoolbox 1.8.1.) E.g, visit: https://www.jyu.fi/hytk/fi/laitokset/mutku/en/research/materials/mirtoolbox')
+end
+
+disp('Detecting sound onsets using finetuned functions from the Music Information Retrieval (MIR) toolbox.')
+if ns
+    a = miraudio([outpath, outname,'_ns',outtype]);
+else
+    a = miraudio(audio);
 end
 
 
-%% Sound onset detection based on the sum of spectral energy increases
+disp('Obtaining short-time Fourier transform (STFT) magnitude spectra with Terhardt model...')
+% For features based on short-time Fourier spectra,
+% use the Blackmann-Harris window function to suppress scalloping loss.
+framedurs = framedur/1000; % Time frame duration conversion from milliseconds to seconds (the effective frame duration will be shorter due to the window function)
+feature_spectrum = mirspectrum( a , 'Window', 'blackmanharris', 'Terhardt', 'Frame', framedurs, 's', 1/srtfr, 's' );
 
-% The analysis of spectra for sound onset detection ensures that
-% amplitude increases in the time-domain waveform related to beating
-% or roughness are ignored.
+if tsm
 
-disp('Detecting sound onsets based on the sum of spectral energy increases.')
+    disp('Estimating spectral flux using the ''emerge'' (or ''smoothgate'') option...')
+    feature_spectral_flux = mirflux(feature_spectrum, 'Inc','BackSmooth','Lartillot','Dist','Gate', 'Frame', framedurs, 's', 1/srtfr, 's');
 
-% Finding maximum signal gain for spectral change over variable attack durations
-disp('   - Estimating the maximum signal gain for spectral change over variable attack durations.')
-attacksamples = 1:round(srtfr*0.050); % Attack durations are tested for up to 50 ms attack duration
-spectchangedb_attdurs = []; % Prepare spectral change curve for variable attack durations ( attack duration index , time sample )
-spectchangedb_leg = {}; % Prepare figure legend for optional visualization
-for j=attacksamples % Loop over attack durations
-    spectchangedb_attdurs(j,:) = [zeros(1,j), 20*log10( sum( tfr_a(:,1+j:end) , 1 ) ./ sum( tfr_a(:,1:end-j) , 1 ) )]; % Summed spectral amplitude change across frequency bands in dB
-    spectchangedb_leg{j} = ['Spectral change in dB per ',num2str(round(j/srtfr*1000)),' ms']; % Prepare figure legend for optional visualization
-end
-[spectchangedb_attdurs(size(spectchangedb_attdurs,1)+1,:), attacksamplesid] = max(spectchangedb_attdurs, [], 1); % Add a last entry with the maximum signal gain across attack durations calculated for each time sample...
-spectchangedb_attdurs(end,:) = spectchangedb_attdurs(end,:) ./ attacksamples(attacksamplesid); % ... and convert it to dB per time resolution of the TFR
-spectchangedb_leg{length(spectchangedb_leg)+1} = ['Maximum signal gain converted to dB per ',num2str(round(1/srtfr*1000)),' ms']; % Add the figure legend for optional visualization of the maximum signal gain estimate
-time = 0:1/srtfr:(length(spectchangedb_attdurs)-1)/srtfr; % Calculate the time in seconds for optional visualization and saving of energy change curve
-if visualize
-    figure('color','w')
-    plot(time, spectchangedb_attdurs')
-    xlabel('Time s.')
-    ylabel('Spectral change (dB)')
-    legend(spectchangedb_leg)
-    title(['Signal gain for variable attack durations in ''',outname,''''],'interpreter','none')
-end
-spectchangedb = spectchangedb_attdurs(end,:); % Use only the spectral change estimate based on the attack duration with optimal signal gain calculated for each time sample
-
-% Detect local energy increases
-eincr = []; % Energy increase ( increase index , 1 = start time sample and 2 = end time sample)
-[~,incrpeaks] = findpeaks( spectchangedb , 'MINPEAKHEIGHT', 0 ); % Detect spectral increase peaks
-zcross = find( spectchangedb == 0 | ([0 diff(sign(spectchangedb))] == 2) ); % Detect zero crossing in forwards direction
-[~,incrvalleys] = findpeaks( -spectchangedb ); incrvalleys = incrvalleys( spectchangedb(incrvalleys)>0 ); % Detect spectral increase valleys
-incrvalleys = unique([1 incrvalleys length(spectchangedb)]); % Add first and last time sample as increase valleys if they are not already detected
-eincrcurve = nan(size(spectchangedb)); % Prepare to save the energy increase curve across time samples
-for j=1:length(incrpeaks) % Loop over energy increase peaks
+else
     
-    % Detect the start time point of the energy increase as the nearest zero-crossing or valley above zero, which precedes or is at the peak in the energy increase
-    eincr(j,1) = max( [ zcross( find( incrpeaks(j) - zcross >= 0,1,'last') ) , incrvalleys( find( incrpeaks(j) - incrvalleys >= 0,1,'last') ) ] ); % Energy increase ( increase index , 1 = start time sample )
-    
-    % Detect the end time point of the energy increase at nearest zero-crossing or valley above zero, which follows after or is at the peak in the energy increase
-    eincr(j,2) = min( [ zcross( find(  zcross - incrpeaks(j) >= 0,1,'first') ) , incrvalleys( find( incrvalleys - incrpeaks(j) >= 0,1,'first') ) ] ); % Energy increase ( increase index , 2 = end time sample)
-    
-    % The energy increase curve is estimated by integrating the spectral change derivative from the start to the end time point
-    eincrcurve( eincr(j,1):eincr(j,2) ) = cumsum( spectchangedb( eincr(j,1):eincr(j,2) ) ) - spectchangedb(eincr(j,1)); % Energy increase curve across time samples
+    disp('Estimating spectral flux...')
+    feature_spectral_flux = mirflux(feature_spectrum, 'Frame', framedurs, 's', 1/srtfr, 's');
     
 end
-disp(['   - ',num2str(length(eincr)),' local energy increases were found.'])
 
+disp('Detecting sound onsets...')
+o = mirevents(feature_spectral_flux, 'Contrast', cthr, 'Threshold', thr);
+onsets = mirgetdata(o) + framedurs/2;
 
-%% Apply onset detection constraints
+% Estimating attacks
+v = mirpeaks(feature_spectral_flux, 'Valleys', 'Contrast', 0.01, 'Threshold', 1); % Detect valleys in the spectral flux curve...
+valleys = sort(mirgetdata(v) + framedurs/2);
+attacks = zeros(length(onsets), 2); % Initialize storing attack time points (onset#, begin and end)
+attacks(:,1) = onsets;
+for i=1:length(onsets)
+    attacks(i,2) = valleys( find(valleys > onsets(i), 1, 'first') ); % Identify the attack end as the first valley after the attack begin
+end
 
-% Apply minimum intensity increase per time frame above noise floor
-intrem = [];
-for j=1:size(eincr,1) % Loop over the detected energy increases
-    
-    % If the maximum intensity in the energy increase curve is less than the intensity increase treshold, 
-    % then assume it's noise and mark the detection to be removed
-    if max( eincrcurve( eincr(j,1):eincr(j,2) ) ) < int 
-        intrem = vertcat(intrem, j);
-    end
-end
-for j=1:length(intrem) % Loop over the energy increases marked to be removed
-    eincrcurve( eincr(intrem(j),1):eincr(intrem(j),2) ) = NaN; % Remove the energy increase curve
-end
-eincr(intrem,:) = []; % Remove the energy increases marked to be removed
-disp(['   - ',num2str(length(eincr)),' local energy increases were retained above ',num2str(int),' dB intensity threshold.'])
+disp(['   -> ',num2str(length(onsets)),' sound onsets were detected.'])
 
-% Apply SOA constraint
-ei = []; % Prepare to store the maximum intensity for each energy increase
-for j=1:size(eincr,1)
-    ei(j) = max( eincrcurve( eincr(j,1):eincr(j,2) ) ); % Maximum intensity for each energy increase
-end
-[~,eiid] = sort(ei,'descend'); % Sort energy increases by their maximum intensity
-soarem = [];
-for j=1:length(eiid) % Loop over the energy increases, from the highest to the lowest intensity
-    if ~(ismember(j,soarem)) % If not it's a weaker energy increase that is already marked to be removed with the SOA constraint...
-        % Remove any following energy increases that occur faster than the SOA treshold, assuming that it's noise
-        soarem = unique(vertcat(soarem, find( ( eincr(:,1) - eincr(eiid(j),1) < soa/1000*srtfr )  &  ( eincr(:,1) - eincr(eiid(j),1) > 0 ) ))); 
-    end
-end
-for j=1:length(soarem) % Loop over the energy increases marked to be removed
-    eincrcurve( eincr(soarem(j),1):eincr(soarem(j),2) ) = NaN; % Remove the energy increase curve
-end
-eincr(soarem,:) = []; % Remove the energy increases marked to be removed
-disp(['   - ',num2str(length(eincr)),' local energy increases were retained above ',num2str(soa),' ms SOA threshold.'])
-
-% Apply energy increase duration constraint
-durrem = [];
-for j=1:size(eincr,1)-1 % Loop over the energy changes, except the last one
-    
-    % If the start time between the energy increase and the following energy increase is shorter than the duration treshold, assume it's noise and remove the detection
-    if eincr(j+1,1) - eincr(j,1) < dur/1000*srtfr 
-        durrem = vertcat(durrem, j); 
-    end
-end
-for j=1:length(durrem) % Loop over the energy increases marked to be removed
-    eincrcurve( eincr(durrem(j),1):eincr(durrem(j),2) ) = NaN; % Remove the energy increase curve
-end
-eincr(durrem,:) = []; % Remove the energy increases marked to be removed
-disp(['   - ',num2str(length(eincr)),' local energy increases were retained above ',num2str(dur),' ms duration threshold.'])
+clear('a','feature_spectrum','feature_spectral_flux','o'); % Cleanup memroy
 
 
 %% Save the detected sound onsets
 
-% Collect the detected sound onsets as the start time points of the energy increases in seconds
-onsets = (eincr(:,1)-1)/srtfr;
-disp('Completed detecting sound onsets.')
-
-% Store the peak intensity (dB) at each sound onset 
+% Store the peak intensity (dB) at each sound onset
+[ inputWave, srtime ] = audioread(audio); % Read input audio waveform
 intensity = zeros(size(onsets)); 
-for j=1:size(eincr,1)
+for i=1:length(onsets)
     
-    timesamples = round(eincr(j,1)*srtime/srtfr):round(eincr(j,2)*srtime/srtfr); % Onset time samples in audio
+    timesamples = round(attacks(i,1)*srtime):round(attacks(i,2)*srtime); % Attack time samples in the audio
     timesamples( timesamples < 1 | timesamples > size(inputWave,1) ) = []; % Ensure the onset time samples are between the first and last audio sample
-    intensity(j,1) = 20*log10( max(max(abs( inputWave( timesamples , :) ))) ); % Maximum intensity (dB) across onset time samples and channels
+    intensity(i,1) = 20*log10( max(max(abs( inputWave( timesamples , :) ))) ); % Maximum intensity (dB) across onset time samples and channels
 
 end
 
 if visualize
     
-    % Show the detected sound onsets on the energy change curve
+    disp('Visualizing the results...')
+
+    % Show the detected sound onsets
+    time = 0:1/srtime:(size(inputWave,1)-1)/srtime;
     figure('color','w')
-    plot(time, spectchangedb)
+    plot(time, inputWave)
     hold on
-    scatter(onsets, spectchangedb(eincr(:,1)), 'k')
-    legend({['Spectral change per time frame (dB/',num2str(round(1000/srtfr)),' ms)'], 'Detected sound onset time points'})
+    plot(time, NaN*ones(size(inputWave)),'k')
+    for i=1:length(onsets)
+        rectangle('Position',[attacks(i,1), -10.^(intensity(i)/20), attacks(i,2)-attacks(i,1), 2*10.^(intensity(i)/20)])
+    end
+    drawnow
+    legend({'Audio waveform','Detected sound onsets (attack range)'})
     xlabel('Time (seconds)')
-    ylabel('Spectral change (dB)')
+    ylabel('Amplitude')
     title(['Detected sound onset time points in ''',outname,''''],'interpreter','none')
     
-    % Show the estimated energy increase curve
-    figure('color','w')
-    plot(time, eincrcurve, 'r')
-    hold on
-    line([time(1) time(end)], [int int], 'color','k')
-    legend({'Sound intensity curve (dB)','Intensity increase threshold (dB)'})
-    xlabel('Time (seconds)')
-    ylabel('Sound intensity (dB) relative to the onset')
-    title(['Sound intensity curves for each detected sound onset in ''',outname,''''],'interpreter','none')
 end
 
 % Save an audio file with the detected sound onsets marked with audio feedback
 if audiosave
+    
     timesamples = (0:round(0.050*srtime)-1); % Time samples for 50 ms sine wave
     sinesamples = repmat( sin( 1000*2*pi * timesamples/srtime)', [1, size(inputWave,2)]); % 50 ms sine wave
     outputWave = inputWave; % Copy the input audio waveform to the output audio waveform
-    for j=1:length(onsets) % Looop over detected sound onsets
+    for i=1:length(onsets) % Looop over detected sound onsets
         
-        if round(onsets(j)*srtime) +1 + timesamples <= size(inputWave,1) % As long as the 50 ms audio feedback does not exceed the duration of the audio waveform
+        if round(onsets(i)*srtime) +1 + timesamples <= size(inputWave,1) % As long as the 50 ms audio feedback does not exceed the duration of the audio waveform
             
-            amplitude = max(abs(inputWave(round(onsets(j)*srtime)+1 + timesamples))); % Adjust the amplitude of the onset marker to the sound intensity of the input audio
+            amplitude = max(abs(inputWave(round(onsets(i)*srtime)+1 + timesamples))); % Adjust the amplitude of the onset marker to the sound intensity of the input audio
             amplitude = 10^(6/20)*amplitude; % Increase the onset marker intensity by 6 dB
             
-            outputWave( round(onsets(j)*srtime)+1 + timesamples, : ) = inputWave( round(onsets(j)*srtime) +1 + timesamples , :) + amplitude*sinesamples; % Add the audio feedback to the output waveform
+            outputWave( round(onsets(i)*srtime)+1 + timesamples, : ) = inputWave( round(onsets(i)*srtime) +1 + timesamples , :) + amplitude*sinesamples; % Add the audio feedback to the output waveform
         else
             
-            remsamples = round(onsets(j)*srtime):size(inputWave,1); % Use the remaining time samples in the audio waveform
+            remsamples = round(onsets(i)*srtime):size(inputWave,1); % Use the remaining time samples in the audio waveform
             
             amplitude = max(abs(inputWave(remsamples))); % Adjust the amplitude of the onset marker to the sound intensity of the input audio
             amplitude = 10^(6/20)*amplitude; % Increase the onset marker intensity by 6 dB
@@ -431,56 +333,47 @@ if audiosave
     end
     % If overwriting files is not permitted in the options and the output file already exists, 
     % ask the user to confirm overwriting or changing the output file
-    if overwrite == false && exist(fullfile([outpath, outname, outsuffix, '_onsets', outtype]),'file') == 2
-        warning(['File ',fullfile([outpath, outname, outsuffix, '_onsets', outtype]),' already exists.'])
+    if overwrite == false && exist([outpath, outname, outsuffix, '_onsets', outtype],'file') == 2
+        warning(['File ',[outpath, outname, outsuffix, '_onsets', outtype],' already exists.'])
         [outname, outpath] = uiputfile({'*.wav';'*.flac';'*.mp3';'*.m4a';'*.mp4';'*.ogg'}, 'Save audio with onsets as...', [outpath, outname, outsuffix, '_onsets', outtype]);
         if outname==0
             error('Please select an output file.')
         end
-        [outpath,outname,filetype] = fileparts(fullfile([outpath,outname])); % Reconstruct the output path, file name, and file type
+        [outpath,outname,filetype] = fileparts([outpath, outname]); % Reconstruct the output path, file name, and file type
         outpath = [outpath,filesep]; % Restore the system-specific sign between the path and file name
         outsuffix = ''; % Apply the user specied file name with no additional user predefined suffix
         suffix = ''; % Apply the user specied file name without the default suffix
     else
         suffix = '_onsets'; % Apply the default suffix
     end
-    audiowrite( fullfile([outpath, outname, outsuffix, suffix, outtype]), outputWave, srtime );
-    disp(['Audio with onsets were saved to ',fullfile([outpath, outname, outsuffix, suffix, outtype])])
+    audiowrite( [outpath, outname, outsuffix, suffix, outtype], outputWave, srtime );
+    disp(['Audio with onsets were saved to ',[outpath, outname, outsuffix, suffix, outtype]])
+
 end
 
 ons = p.Results; % Save all the applied options in ons structure
 ons.audio = audio; % Add the input audio path and file name
-if ns
+if ns & exist('noise_audmed','var')
     ons.noise_audmed = noise_audmed; % Add the audio medium noise amplitude estimates in dB (1 = Brownian (red), 2 = Pink, 3 = Blue, 4 = Violet, 5 = White)
 end
 
-% If chosen, save Matlab vector with the detected sound onsets, energy change analyses, and the settings
-if echange
-    ons.time = time; % Time in seconds
-    ons.spectchangedb = spectchangedb; % Spectral change in dB
-    ons.eincr = eincr; % Energy increase ( increase index , 1 = start time sample and 2 = end time sample)
-    ons.eincrcurve = eincrcurve; % Estimated energy increase curves in dB over time
-else
-    % Else, only save Matlab vector with the detected sound onset time points in seconds and the settings
-end
+if onsave % If chosen, save Matlab vector with the detected sound onsets, energy change analyses, and the settings
 
-% If overwriting files is not permitted in the options and the output file already exists,
-% ask the user to confirm overwriting or changing the output file
-if overwrite == false && exist(fullfile([outpath, outname, outsuffix,'.mat']),'file') == 2
-    warning(['File ',fullfile([outpath, outname, outsuffix]),' already exists.'])
-    [outname, outpath] = uiputfile('*.mat', 'Save onsets as...', [outpath, outname, outsuffix,'.mat']);
-    if outname==0
-        error('Please select an output file.')
+    % If overwriting files is not permitted in the options and the output file already exists,
+    % ask the user to confirm overwriting or changing the output file
+    if overwrite == false && exist([outpath, outname, outsuffix,'.mat'],'file') == 2
+        warning(['File ',[outpath, outname, outsuffix],' already exists.'])
+        [outname, outpath] = uiputfile('*.mat', 'Save onsets as...', [outpath, outname, outsuffix,'.mat']);
+        if outname==0
+            error('Please select an output file.')
+        end
+        [outpath,outname,filetype] = fileparts([outpath,outname]); % Reconstruct the output path, file name, and file type
+        outpath = [outpath,filesep]; % Restore the system-specific sign between the path and file name
+        outsuffix = ''; % Apply the user specied file name with no additional user predefined suffix
     end
-    [outpath,outname,filetype] = fileparts(fullfile([outpath,outname])); % Reconstruct the output path, file name, and file type
-    outpath = [outpath,filesep]; % Restore the system-specific sign between the path and file name
-    outsuffix = ''; % Apply the user specied file name with no additional user predefined suffix
-end
-save(fullfile([outpath, outname, outsuffix]),'onsets','ons');
-if ons.echange
-    disp(['Onsets in seconds, energy change analyses, and detection settings were saved to ''',fullfile([outpath, outname, outsuffix]),'.mat''.'])
-else
-    disp(['Onsets in seconds and detection settings were saved to ''',fullfile([outpath, outname, outsuffix]),'.mat''.'])
+    save([outpath, outname, outsuffix],'onsets','ons');
+    disp(['Onsets in seconds and detection settings were saved to ''',[outpath, outname, outsuffix],'.mat''.'])
+    
 end
 
 end
