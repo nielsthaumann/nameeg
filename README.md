@@ -103,3 +103,15 @@ Changes are saved automatically (along with the undo/redo history).
   <image width="960" height="513" src="https://github.com/nielsthaumann/nameeg/blob/main/name_onsed_01.png">
 </p>
 
+
+
+## For further information, please refer to: 
+
+Haumann, N. T., Lumaca, M., Kliuchko, M., Santacruz, J. L., Vuust, P., & Brattico, E. (2021). <b> "Extracting human cortical responses to sound onsets and acoustic feature changes in real music, and their relation to event rate". </b> Brain Research, 1754, 147248. https://doi.org/10.1016/j.brainres.2020.147248
+
+Haumann, N. T., Kliuchko, M., Vuust, P., & Brattico, E. (2018).  <b> "Applying acoustical and musicological analysis to detect brain responses to realistic music: A case study." </b> Applied sciences, 8(5), 716. https://doi.org/10.3390/app8050716
+
+Haumann, N. T., Petersen, B., Vuust, P., & Brattico, E. (2023).  <b> "Age differences in central auditory system responses to naturalistic music." Biological Psychology, 179, 108566. https://doi.org/10.1016/j.biopsycho.2023.108566
+
+
+
