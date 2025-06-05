@@ -93,6 +93,6 @@ with the onsets stored in seconds.
 Changes are saved automatically (along with the undo/redo history). 
 
 <p align="center">
-  <image width="700" height="526" src="https://github.com/nielsthaumann/nameeg/blob/main/name_onsed_01.png">
+  <image width="960" height="513" src="https://github.com/nielsthaumann/nameeg/blob/main/name_onsed_01.png">
 </p>
 
