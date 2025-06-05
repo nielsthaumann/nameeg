@@ -33,7 +33,7 @@ thereby requiring high temporal accuracy
 The algorithm includes suppression of noise in the audio medium. 
 
 <p align="center">
-  <image width="700" height="526" src="https://github.com/nielsthaumann/nameeg/blob/main/01%20mironsets%20accuracy%20improvement.png">
+  <image width="700" height="526" src="name_ons_01">
 </p>
 
 Brownian noise affecting low frequency bands in the audio
@@ -42,14 +42,14 @@ function (lsqnonneg) to fit a 1/f curve to the average
 amplitude spectrum. 
 
 <p align="center">
-  <image width="700" height="526" src="https://github.com/nielsthaumann/nameeg/blob/main/02%20simulated%20noise.png">
+  <image width="700" height="526" src="name_ons_02">
 </p>
 
 The fitted curve serves as a noise floor
 threshold, below which all audio is removed. 
 
 <p align="center">
-  <image width="700" height="526" src="https://github.com/nielsthaumann/nameeg/blob/main/03%20noise%20suppression.png">
+  <image width="700" height="526" src="name_ons_03">
 </p>
 
 The automatic onset detection is performed using finetuned functions
@@ -91,3 +91,8 @@ Load and save a .mat file with the variable 'onsets' containing a numerical vect
 with the onsets stored in seconds. 
 
 Changes are saved automatically (along with the undo/redo history). 
+
+<p align="center">
+  <image width="700" height="526" src="name_onsed_01">
+</p>
+
