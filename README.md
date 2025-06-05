@@ -7,6 +7,33 @@ Please cite this site ( https://github.com/nielsthaumann/nameeg ) if you are pub
 ----------------------------------------
 ## Automatic sound onset detection with noise suppression
 
+Automatic detection of sound onsets in naturalistic music
+presents a methodologically complicated challenge, as the
+audio signal typically contains multiple overlapping voices
+with complex spectral-temporal patterns and background
+noise (e.g., [Smith & Fraser, 2004](https://doi.org/10.1109/TNN.2004.832831); [Thoshkahna &
+Ramakrishnan, 2008](http://dx.doi.org/10.1109/ICOSP.2008.4697399); [Alías et al., 2016](https://doi.org/10.3390/app6050143)). 
+An additional challenge in measuring evoked responses 
+to sound onsets in recorded music is the brevity of the 
+auditory cortical evoked responses, which last only a few tens of 
+milliseconds reversing polarity, thereby requiring high temporal accuracy
+([Haumann et al., 2021](https://doi.org/10.1016/j.brainres.2020.147248)). 
+
+(https://github.com/nielsthaumann/nameeg/blob/main/01%20mironsets%20accuracy%20improvement.png)
+
+Brownian noise affecting low frequency bands in the audio
+can be suppressed with the non-negative least squares
+function (lsqnonneg) to fit a 1/f curve to the average
+amplitude spectrum. 
+
+(https://github.com/nielsthaumann/nameeg/blob/main/02%20simulated%20noise.png)
+
+This fitted curve serves as a noise floor
+threshold, below which all audio can be removed. 
+
+(https://github.com/nielsthaumann/nameeg/blob/main/02%20simulated%20noise.png) (https://github.com/nielsthaumann/nameeg/blob/main/03%20noise%20suppression.png)
+
+
 The algorithm includes suppression of noise in the audio medium. 
 
 Use as: 
