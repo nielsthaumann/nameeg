@@ -19,7 +19,7 @@ E.g., we see a horse, not the actions and light reflections that made us draw th
 Similarly, we hear a sound, not the continuous acoustical changes that made us draw the interpretation that there is a sound: 
 <p align="center">
   <image width="1125" height="750" src=https://github.com/nielsthaumann/nameeg/blob/main/event_related_vs_TRF.png>
-    <i> The above test results show that cortical responses in the human brain can be predicted by sound onsets, but not from continuous changes in spectral flux or sound intensity when excluding the rapid increases, which correlate with the sound onsets. </i>
+    <i> The above test results show that cortical responses in the human brain can be predicted by sound onsets, but not from continuous changes in spectral flux or sound intensity when excluding the rapid increases correlating with the sound onsets. </i>
 </p>
 <br>
 </br>
