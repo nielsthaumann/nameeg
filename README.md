@@ -96,7 +96,6 @@ The ‘Terhardt’ filter ([Terhardt, 1979](https://doi.org/10.1016/0378-5955(79
 [Pampalk et al., 2004](https://doi.org/10.1162/014892604323112248)) 
 is applied to simulate the effects of 
 the human outer ear on the perceived spectra. 
-
 <br></br>
 Spectro-temporal amplitude changes are computed using
 the mirflux function, incorporating the ‘Emerge’ filter
