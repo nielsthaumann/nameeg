@@ -72,7 +72,7 @@ amplitude spectrum.
   <image width="240" height="240" src="https://upload.wikimedia.org/wikipedia/commons/c/c2/Brownian_motion_large.gif">
 </p>
 <p align="center">
-  <a href=https://da.m.wikipedia.org/wiki/Fil:Brownian_motion_large.gif> (Lookang, Brownian motion in gas, Wikimedia Commons)
+  <a href=https://da.m.wikipedia.org/wiki/Fil:Brownian_motion_large.gif> (Lookang, Brownian motion in air, Wikimedia Commons)
   </a>
 </p>
 <p align="center">
