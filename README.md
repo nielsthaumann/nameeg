@@ -5,6 +5,23 @@ Under development at Center for Music in the Brain ( https://musicinthebrain.au.
 Please cite this site ( https://github.com/nielsthaumann/nameeg ) if you are publishing results using functions from this package. 
 
 
+A popular assumption is that a one-to-one copy of the rich audio details in the acoustic environment is encoded in the human brain's cortex, which can be recorded using MEG/EEG and directly converted back into audio waveforms. However, the auditory cortex rather encodes interpretations of relevant sound events, not the rich audio details in the acoustic environment for making the interpretations of the sound events ([Haumann et al., 2021](https://doi.org/10.1016/j.brainres.2020.147248); [Haumann et al., 2018](https://doi.org/10.3390/app8050716); [Poikonen et al. 2016](https://doi.org/10.1016/j.neuroscience.2015.10.061)). <br></br>
+An analogue to information encoding in the cortex is the cave metaphor by Plato, which illustrates how our interpretation of what happens in our sorroundings is a simplified, but often useful, understanding of what actually happens in reality. </br>
+E.g., we see a horse, not the actions and light reflections that made us draw the interpretation that there is a horse:
+<p align="center">
+  <image width="850" height="300" src=https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/An_Illustration_of_The_Allegory_of_the_Cave%2C_from_Plato%E2%80%99s_Republic.jpg/1920px-An_Illustration_of_The_Allegory_of_the_Cave%2C_from_Plato%E2%80%99s_Republic.jpg>
+</p>
+<p align="center">
+  <a href=https://commons.wikimedia.org/wiki/File:An_Illustration_of_The_Allegory_of_the_Cave,_from_Plato%E2%80%99s_Republic.jpg> (4edges, Wikimedia Commons)
+  </a>
+</p>
+</br>
+Similarly, we hear a sound, not the continuous acoustical changes that made us draw the interpretation that there is a sound: 
+<p align="center">
+  <image width="1125" height="750" src=https://github.com/nielsthaumann/nameeg/blob/main/event_related_vs_TRF.png>
+</p>
+<i> The above test results show that cortical responses can be predicted by sound onsets, but not from continuous changes in spectral flux or sound intensity when excluding the increases correlating with the sound onsets. </i>
+
 ----------------------------------------
 ## Automatic sound onset detection with noise suppression
 
@@ -16,6 +33,7 @@ to estimate sound onsets in an audio file, where, e.g., audio = 'C:\folder\audio
 
 The onsets are given as an array of time points in seconds.
 <br></br>
+ 
 Automatic detection of sound onsets in naturalistic music
 presents a methodologically complicated challenge, 
 as the audio signal typically contains multiple overlapping voices 
@@ -35,7 +53,7 @@ thereby requiring high temporal accuracy
 <p align="center">
   <a href=https://doi.org/10.1016/j.brainres.2020.147248> (Haumann et al., 2021, "Extracting human cortical responses to sound onsets <br> and acoustic feature changes in real music, and their relation to event rate",<i> Brain Research</i>)</br>
   </a>
-</br></br>
+</br>
 
 The automatic sound onset detection algorithm includes suppression of noise in the audio medium. 
 
