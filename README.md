@@ -107,7 +107,7 @@ Changes are saved automatically (along with the undo/redo history).
 
 ## For further information, please refer to: 
 
-Haumann, N. T., Petersen, B., Seeberg, A. B., Vuust, P., & Brattico, E. (2025). <b> "It takes experience to tango: Experienced cochlear implant users show cortical evoked potentials to naturalistic music."</b>bioRxiv, 2025.2006.2004.657805. https://doi.org/10.1101/2025.06.04.657805
+Haumann, N. T., Petersen, B., Seeberg, A. B., Vuust, P., & Brattico, E. (2025). <b> "It takes experience to tango: Experienced cochlear implant users show cortical evoked potentials to naturalistic music."</b> bioRxiv, 2025.2006.2004.657805. https://doi.org/10.1101/2025.06.04.657805
 
 Haumann, N. T., Petersen, B., Vuust, P., & Brattico, E. (2023).  <b> "Age differences in central auditory system responses to naturalistic music."</b> Biological Psychology, 179, 108566. https://doi.org/10.1016/j.biopsycho.2023.108566
 
