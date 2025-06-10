@@ -67,6 +67,13 @@ function (lsqnonneg) to fit a 1/f curve to the average
 amplitude spectrum. 
 
 <p align="center">
+  <image width="240" height="240" src="https://upload.wikimedia.org/wikipedia/commons/c/c2/Brownian_motion_large.gif">
+</p>
+<p align="center">
+  <a href=https://da.m.wikipedia.org/wiki/Fil:Brownian_motion_large.gif> (Lookang, Brownian motion in gas, Wikimedia Commons)
+  </a>
+</p>
+<p align="center">
   <image width="700" height="526" src="https://github.com/nielsthaumann/nameeg/blob/main/name_ons_02.png">
 </p>
 
@@ -88,7 +95,9 @@ the Fourier transform. <br></br>
 The ‘Terhardt’ filter ([Terhardt, 1979](https://doi.org/10.1016/0378-5955(79)90025-x);
 [Pampalk et al., 2004](https://doi.org/10.1162/014892604323112248)) 
 is applied to simulate the effects of 
-the human outer ear on the perceived spectra. <br></br>
+the human outer ear on the perceived spectra. 
+
+<br></br>
 Spectro-temporal amplitude changes are computed using
 the mirflux function, incorporating the ‘Emerge’ filter
 ([Lartillot et al., 2013](https://www.academia.edu/download/121050832/olivier_lartillot_-_estimating_tempo_and_metrical_features_by_tracking_the_whole_metrical_hierarchy.pdf)) 
