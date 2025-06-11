@@ -30,9 +30,9 @@ Similarly, we hear a sound, not the continuous acoustical changes that made us d
 <p align="center">
   <image width="1127" height="766" src=https://github.com/nielsthaumann/nameeg/blob/main/event_related_vs_TRF.png>
 </p>
-<p align="center">
-<i> The above test results show that cortical brain responses are predicted by sound onset events, but not from continuous changes in spectral flux or sound intensity when excluding the rapid increases correlating with the sound onsets. </i>
+<p align="center"><i> The above test results show that cortical brain responses are predicted by sound onset events, but not from continuous changes in spectral flux or sound intensity when excluding the rapid increases correlating with the sound onsets. </i>
 </p>
+    
 <br>
 </br>
     
