@@ -1,7 +1,5 @@
 # Naturalistic auditory MEG/EEG (NAME) package
 
-Under development at Center for Music in the Brain ( https://musicinthebrain.au.dk/ )
-
 Please cite this site ( https://github.com/nielsthaumann/nameeg ) if you are publishing results using functions from this package. 
 
 Auditory neuroscience using MEG/EEG methods has primarily been conducted in controlled laboratory settings, utilizing simplified stimuli, such as pure sinusoidal tones or brief sound sequences. However, recent research questions to which extent the brain responds to simplified stimuli the same way as to sounds heard in the real world in everyday situations. For example, recent research shows that different neural populations are involved in the processing of naturalistic than simplified sounds ([Haumann et al., 2023](https://doi.org/10.1016/j.biopsycho.2023.108566); [Khalighinejad et al., 2021](http://dx.doi.org/10.1016/j.neuroimage.2021.118003); [Theunissen & Elie, 2014](https://doi.org/10.1038/nrn3731)). 
