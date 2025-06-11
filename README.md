@@ -4,6 +4,16 @@ Under development at Center for Music in the Brain ( https://musicinthebrain.au.
 
 Please cite this site ( https://github.com/nielsthaumann/nameeg ) if you are publishing results using functions from this package. 
 
+Auditory neuroscience using MEG/EEG methods has primarily been conducted in controlled laboratory settings, utilizing simplified stimuli, such as pure sinusoidal tones or brief sound sequences. However, recent research questions to which extent the brain responds to simplified stimuli the same way as to sounds heard in the real world in everyday situations. For example, recent research shows that different neural populations are involved in the processing of naturalistic than simplified sounds ([Theunissen & Elie, 2014](https://doi.org/10.1038/nrn3731); [Khalighinejad et al., 2021](http://dx.doi.org/10.1016/j.neuroimage.2021.118003); [Haumann et al., 2023](https://doi.org/10.1016/j.biopsycho.2023.108566)). 
+
+<p align="center">
+  <image width="850" height="405" src=https://ars.els-cdn.com/content/image/1-s2.0-S1053811921002809-gr1_lrg.jpg>
+</p>
+<p align="center">
+  <a href=https://doi.org/10.1016/j.neuroimage.2021.118003> (Khalighinejad et al., 2021. "Functional characterization of human Heschl's gyrus in response to natural speech." <i> Neuroimage</i>, 235, 118003.)
+  </a>
+</p>
+</br>
 
 A popular assumption is that a one-to-one copy of the rich audio details in the acoustic environment is encoded in the human brain's cortex, which can be recorded using MEG/EEG and directly converted back into audio waveforms. However, the auditory cortex rather encodes interpretations of relevant sound events, not the rich audio details in the acoustic environment for making the interpretations of the sound events ([Haumann et al., 2021](https://doi.org/10.1016/j.brainres.2020.147248); [Haumann et al., 2018](https://doi.org/10.3390/app8050716); [Poikonen et al. 2016](https://doi.org/10.1016/j.neuroscience.2015.10.061)). <br></br>
 An analogue to information encoding in the cortex is the cave metaphor by Plato, which illustrates how our interpretation of what happens in our sorroundings is a simplified, but often useful, understanding of what actually happens in reality. </br>
