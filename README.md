@@ -42,7 +42,7 @@ Please cite this site ( https://github.com/nielsthaumann/nameeg ) if you are pub
 
 Use the onset detection function with the following command: 
 
-onsets = name_ons(audio)  
+onsets = [name_ons](https://github.com/nielsthaumann/nameeg/blob/main/name_ons.m)(audio)  
 
 to estimate sound onsets in an audio file, where, e.g., audio = 'C:\folder\audio.wav'
 
@@ -70,7 +70,7 @@ thereby requiring high temporal accuracy
   </a>
 </br>
 
-The automatic sound onset detection algorithm includes suppression of noise in the audio medium. 
+The automatic sound onset detection algorithm includes suppression of noise in the audio medium (see [name_ns](https://github.com/nielsthaumann/nameeg/blob/main/name_ns.m)). 
 
 <p align="center">
   <image width="700" height="526" src="https://github.com/nielsthaumann/nameeg/blob/main/name_ons_01.png">
@@ -130,7 +130,7 @@ Use this editor to combine the speed of automatic sound onset detection
 with the reliability of manual editing.
 
 Call the editor from the Matlab Command Window and hit Enter: </br>
-name_onsed
+[name_onsed](https://github.com/nielsthaumann/nameeg/blob/main/name_onsed.m)
 
 Load an audio file (.wav, .flac, .mp3, .m4a, .mp4, .ogg) for auditory validation
 and visual inspection of energy increases in a time-frequency representation. 
