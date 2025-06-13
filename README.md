@@ -56,8 +56,10 @@ onsets = [name_ons](https://github.com/nielsthaumann/nameeg/blob/main/name_ons.m
 to estimate sound onsets in an audio file, where, e.g., audio = 'C:\folder\audio.wav'
 
 The onsets are given as an array of time points in seconds.
+
+The automatic sound onset detection algorithm includes suppression of noise in the audio medium (see [name_ns](https://github.com/nielsthaumann/nameeg/blob/main/name_ns.m)). 
 <br></br>
- 
+
 Automatic detection of sound onsets in naturalistic music
 presents a methodologically complicated challenge, 
 as the audio signal typically contains multiple overlapping voices 
@@ -70,8 +72,6 @@ in recorded music is the brevity of the auditory cortical evoked responses,
 which last only a few tens of milliseconds reversing polarity, 
 thereby requiring high temporal accuracy
 ([Haumann et al., 2021](https://doi.org/10.1016/j.brainres.2020.147248)). 
-
-The automatic sound onset detection algorithm includes suppression of noise in the audio medium (see [name_ns](https://github.com/nielsthaumann/nameeg/blob/main/name_ns.m)). 
 
 <p align="center">
   <image width="700" height="526" src="https://github.com/nielsthaumann/nameeg/blob/main/name_ons_01.png">
