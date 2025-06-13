@@ -11,14 +11,14 @@ Auditory neuroscience using MEG/EEG methods has primarily been conducted in cont
 </p>
 </br>
 
-A popular assumption is that a one-to-one copy of the rich audio details in the acoustic environment is encoded in the human brain's cortex, which can be recorded using MEG/EEG and directly converted back into audio waveforms. However, the auditory cortex rather encodes interpretations of relevant sound events, not the rich audio details in the acoustic environment for making the interpretations of the sound events ([Haumann et al., 2021](https://doi.org/10.1016/j.brainres.2020.147248); [Haumann et al., 2018](https://doi.org/10.3390/app8050716); [Poikonen et al. 2016](https://doi.org/10.1016/j.neuroscience.2015.10.061)). <br></br>
+A popular assumption is that a one-to-one copy of the rich audio details in the acoustic environment is encoded in the human brain's cortex, which can be recorded using MEG/EEG and directly converted back into audio waveforms. However, the auditory cortex rather encodes interpretations of relevant sound events, not the rich audio details in the acoustic environment for making the interpretations of the sound events ([Haumann et al., 2021](https://doi.org/10.1016/j.brainres.2020.147248); [Haumann et al., 2018](https://doi.org/10.3390/app8050716); [Poikonen et al. 2016](https://doi.org/10.1016/j.neuroscience.2015.10.061)).
 
 <p align="center">
-  <image width="563" height="713" src=https://ars.els-cdn.com/content/image/1-s2.0-S0006899320306065-gr2_lrg.jpg>
+  <image width="700" height="700" src="https://github.com/user-attachments/assets/a90f1238-6cd4-43d3-b54a-a65faf2e12fb">
 </p>
 <p align="center">
   <a href=https://doi.org/10.1016/j.brainres.2020.147248> (Haumann et al., 2021, "Extracting human cortical responses to sound onsets <br> and acoustic feature changes in real music, and their relation to event rate",<i> Brain Research</i>)</br>
-</p>
+  </a>
 </br>
 
 An analogue to information encoding in the cortex is the cave metaphor by Plato, which illustrates how our interpretation of what happens in our sorroundings is a simplified, but often useful, understanding of what actually happens in reality. </br>
@@ -70,14 +70,6 @@ in recorded music is the brevity of the auditory cortical evoked responses,
 which last only a few tens of milliseconds reversing polarity, 
 thereby requiring high temporal accuracy
 ([Haumann et al., 2021](https://doi.org/10.1016/j.brainres.2020.147248)). 
-
-<p align="center">
-  <image width="700" height="700" src="https://github.com/user-attachments/assets/a90f1238-6cd4-43d3-b54a-a65faf2e12fb">
-</p>
-<p align="center">
-  <a href=https://doi.org/10.1016/j.brainres.2020.147248> (Haumann et al., 2021, "Extracting human cortical responses to sound onsets <br> and acoustic feature changes in real music, and their relation to event rate",<i> Brain Research</i>)</br>
-  </a>
-</br>
 
 The automatic sound onset detection algorithm includes suppression of noise in the audio medium (see [name_ns](https://github.com/nielsthaumann/nameeg/blob/main/name_ns.m)). 
 
