@@ -1,6 +1,6 @@
 # Naturalistic auditory MEG/EEG (NAME) package
 
-Auditory neuroscience using MEG/EEG methods has primarily been conducted in controlled laboratory settings, utilizing simplified stimuli, such as pure sinusoidal tones or brief sound sequences. However, recent research questions to which extent the human brain responds to simplified stimuli the same way as to sounds heard in the real world in everyday situations. For example, recent research shows that different neural populations are involved in the processing of naturalistic than simplified sequences of sounds ([Haumann et al., 2023](https://doi.org/10.1016/j.biopsycho.2023.108566); [Khalighinejad et al., 2021](http://dx.doi.org/10.1016/j.neuroimage.2021.118003)). 
+Auditory neuroscience using MEG/EEG methods has primarily been conducted in controlled laboratory settings, utilizing simplified stimuli, such as pure sinusoidal tones or brief sound sequences. However, recent research questions to which extent the human brain responds to simplified stimuli the same way as to sounds heard in the real world in everyday situations. For example, recent research shows that different neural populations are involved in the processing of naturalistic than simplified sound sequences ([Haumann et al., 2023](https://doi.org/10.1016/j.biopsycho.2023.108566); [Khalighinejad et al., 2021](http://dx.doi.org/10.1016/j.neuroimage.2021.118003)). 
 
 <p align="center">
   <image width="750" height="358" src=https://ars.els-cdn.com/content/image/1-s2.0-S1053811921002809-gr1_lrg.jpg>
