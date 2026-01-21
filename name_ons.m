@@ -68,7 +68,7 @@ function [onsets, intensity, ons] = name_ons(audio, varargin)
 %                                         (default is false) (e.g., use true for batch processing with no interruptions)
 % 
 % name_ons(..., 'outpath', outpath)       output path (default is same as the path with the input audio)
-%                                         ( e.g., outpath = 'C:\folder\' )
+%                                         ( e.g., outpath = 'C:\folder' )
 % 
 % name_ons(..., 'overwrite', overwrite)   overwrite any existing files without asking user (true or false)
 %                                         (default is false) (e.g., use true for batch processing with no interruptions)
@@ -372,5 +372,6 @@ if onsave % If chosen, save Matlab vector with the detected sound onsets, energy
     disp(['Onsets in seconds and detection settings were saved to ''',[outpath, filesep, outname, outsuffix],'.mat''.'])
     
 end
+
 
 end
