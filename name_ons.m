@@ -121,9 +121,9 @@ addOptional(p, 'mono', true) % (by default the noise is estimated for the averag
 addOptional(p, 'tsm', true) % Time smooting to suppress tremolo, true or false (Lartillot & Grandjean 2019) (default = true)
 addOptional(p, 'cthr', 0.01) % Minimum intensity increase threshold to suppress vibrato/tremolo in normalized values between 0-1 (default = 0.01)
 addOptional(p, 'thr', 0) % Minimum intensity threshold to suppress background noise in normalized values between 0-1 (default = 0)
-[inputpath, ~, ~] = fileparts(audio);
 addOptional(p, 'onsave', false) % (by default saving onsets to MAT file is false)
-addOptional(p, 'outpath', [inputpath,filesep]) % Output path (default is same as the path with the input audio)
+[inputpath, ~, ~] = fileparts(audio);
+addOptional(p, 'outpath', inputpath) % Output path (default is same as the path with the input audio)
 addOptional(p, 'outsuffix', '') % Text string added to ending of output files (e.g., for testing specific settings) (default is '')
 addOptional(p, 'visualize', false) % Visualization of onset intensities and detected onset times on spectral change curve (true or false) (default is false)
 addOptional(p, 'audiosave', false) % Save audio file with onsets marked by 50 ms 1000 Hz sine tones (true or false) (default is false)
@@ -378,3 +378,4 @@ end
 
 
 end
+
