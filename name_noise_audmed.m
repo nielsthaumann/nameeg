@@ -114,7 +114,7 @@ addOptional(p, 'srtfr', []) % (by default the sampling rate of the TFR is not pr
 addOptional(p, 'srtime', []) % (by default the sampling rate of the time series is not provided)
 addOptional(p, 'frametime', []) % (by default the frame time reference is is not provided)
 addOptional(p, 'bitdepth', 16) % (by default the audio bit depth is 16)
-addOptional(p, 'outpath', '') % Output path (default is the current folder)
+addOptional(p, 'outpath', pwd) % Output path (default is the current folder)
 parse(p, varargin{:})
 decol = p.Results.decol; % Color of noise with decrease per frequency ('brown' or 'pink') (default = 'brown')
 if ~ischar(decol)
@@ -495,5 +495,6 @@ if ~isempty(audiofile)
 end
 
 noise_audmed = 20*log10(noise_amplitude); % Output the audio medium noise amplitude estimates in dB (1 = Brownian (red), 2 = Pink, 3 = Blue, 4 = Violet, 5 = White)
+
 
 end
