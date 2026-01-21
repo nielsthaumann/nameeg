@@ -122,7 +122,7 @@ flux using the mirevents function with the default settings.
 
 Please make sure that a recent version of the MIRtoolbox is installed. 
 (This function was tested with MIRtoolbox 1.8.1.)<br></br>
-E.g, visit: https://www.jyu.fi/hytk/fi/laitokset/mutku/en/research/materials/mirtoolbox
+E.g, visit: [https://www.jyu.fi/hytk/fi/laitokset/mutku/en/research/materials/mirtoolbox](https://github.com/olivierlar/mirtoolbox)
 
 ----------------------------------------
 ## Sound onset editor
