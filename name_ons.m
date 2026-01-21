@@ -87,7 +87,7 @@ function [onsets, intensity, ons] = name_ons(audio, varargin)
 % 
 % Please make sure that a recent version of the MIRtoolbox is installed. 
 % (This function was tested with MIRtoolbox 1.8.1.)
-% E.g, visit: https://www.jyu.fi/hytk/fi/laitokset/mutku/en/research/materials/mirtoolbox
+% E.g, visit: https://github.com/olivierlar/mirtoolbox
 % 
 % Please cite this paper when applying name_ons, which calls MIRtoolbox functions: 
 % Lartillot, O., & Toiviainen, P. (2007). A Matlab Toolbox for Musical
@@ -222,7 +222,7 @@ end
 %% Sound onset detection using finetuned functions from the Music Information Retrieval (MIR) toolbox
 
 if isempty(which('miraudio')) || isempty(which('mirspectrum')) || isempty(which('mirflux')) || isempty(which('mirevents')) 
-    error('Please make sure that a recent version of the MIRtoolbox (Lartillot and Toiviai) is installed. (This function was tested with MIRtoolbox 1.8.1.) E.g, visit: https://www.jyu.fi/hytk/fi/laitokset/mutku/en/research/materials/mirtoolbox')
+    error('Please make sure that a recent version of the MIRtoolbox (Lartillot and Toiviai) is installed. (This function was tested with MIRtoolbox 1.8.1.) E.g, visit: https://github.com/olivierlar/mirtoolbox')
 end
 
 disp('Detecting sound onsets using finetuned functions from the Music Information Retrieval (MIR) toolbox.')
@@ -375,5 +375,6 @@ if onsave % If chosen, save Matlab vector with the detected sound onsets, energy
     disp(['Onsets in seconds and detection settings were saved to ''',[outpath, outname, outsuffix],'.mat''.'])
     
 end
+
 
 end
