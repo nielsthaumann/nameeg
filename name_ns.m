@@ -87,7 +87,7 @@ addOptional(p, 'win', []) % (by default window function is not provided)
 addOptional(p, 'srtime', []) % (by default the sampling rate of the time series is not provided)
 addOptional(p, 'bitdepth', 16) % (by default the audio bit depth is 16)
 [inputpath, ~, ~] = fileparts(audio);
-addOptional(p, 'outpath', [inputpath,filesep]) % Output path (default is same as the path with the input audio)
+addOptional(p, 'outpath', inputpath) % Output path (default is same as the path with the input audio)
 parse(p, varargin{:})
 if ~ischar(audio)
     error('audio variable must be a character array (string).')
@@ -147,6 +147,7 @@ fftsize = 2*round(framedur/1000*srtime/2); % FFT frame size
 
 disp('Suppressing audio medium noise and saving audio with supressed noise...')
 [~, noise_audmed] = name_noise_audmed(tfr_a, freq, 'overwrite', overwrite, 'decol',decol, 'debeg', debeg, 'incol', incol, 'lowfreq', lowfreq, 'highfreq', highfreq, 'dynbuffer', dynbuffer, 'mono', mono, 'duration', duration, 'visualize', visualize, 'audio', audio, 'frametime','center', 'tfr_p', tfr_p, 'win', win, 'srtfr', srtfr, 'srtime',srtime, 'bitdepth', bitdepth, 'outpath',outpath);
+
 
 
 end
