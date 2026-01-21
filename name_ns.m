@@ -48,7 +48,7 @@ function noise_audmed = name_ns(audio, varargin)
 % name_ns(..., 'visualize', visualize)   visualization of the noise analysis (true or false) (default is false)
 %
 % name_ns(..., 'outpath', outpath)       output path (default is same as the path with the input audio)
-%                                        ( e.g., outpath = 'C:\folder\' )
+%                                        ( e.g., outpath = 'C:\folder' )
 % 
 % name_ns(..., 'overwrite', overwrite)   overwrite any existing files without asking user (true or false)
 %                                        (default is false) (e.g., use true for batch processing with no interruptions)
@@ -151,3 +151,4 @@ disp('Suppressing audio medium noise and saving audio with supressed noise...')
 
 
 end
+
