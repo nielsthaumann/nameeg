@@ -51,7 +51,7 @@ function [tfr_a_ns, noise_audmed] = name_noise_audmed(tfr_a, freq, varargin)
 %                                                          e.g., audio = 'C:\folder\audio_ns.wav'
 %                                                          (by default saving to audio file name is disabled)
 % 
-% [...] = name_noise_audmed(..., 'outpath', outpath)       output path (default is same as the path with the input audio)
+% [...] = name_noise_audmed(..., 'outpath', outpath)       output path (default is current folder)
 %                                                          ( e.g., outpath = 'C:\folder\' )
 % 
 % [...] = name_noise_audmed(..., 'overwrite', overwrite)   overwrite any existing files without asking user (true or false)
@@ -421,19 +421,18 @@ if ~isempty(audiofile)
     [~,filename,filetype] = fileparts(audiofile);
     % If overwriting files is not permitted in the options and the output file already exists, 
     % ask the user to confirm overwriting or changing the output file
-    if overwrite == false && exist(fullfile([outpath,filename,'_ns',filetype]),'file') == 2
-        warning(['File ',fullfile([outpath,filename,'_ns',filetype]),' already exists.'])
+    if overwrite == false && exist(fullfile([outpath, filesep, filename,'_ns', filetype]),'file') == 2
+        warning(['File ',fullfile([outpath, filesep, filename,'_ns', filetype]),' already exists.'])
         [filename, outpath] = uiputfile({'*.wav';'*.flac';'*.mp3';'*.m4a';'*.mp4';'*.ogg'}, 'Save audio with noise suppression as...', [outpath,filename,'_ns',filetype]);
         if filename==0
             error('Please select an output file.')
         end
         [outpath,filename,filetype] = fileparts(fullfile([outpath,filename])); % Reconstruct the output path, file name, and file type
-        outpath = [outpath,filesep]; % Restore the system-specific sign between the path and file name
         suffix = ''; % Apply the user specied file name without the default suffix
     else
         suffix = '_ns'; % Apply the default suffix
     end
-    disp(['Saving audio with noise suppression to ''',fullfile([outpath,filename,suffix,filetype]),'''...'])
+    disp(['Saving audio with noise suppression to ''',fullfile([outpath, filesep, filename, suffix, filetype]),'''...'])
     if mono
         outputSpectrogram = tfr_a - repmat( noisespect_est , [1, size(tfr_a,2), size(tfr_a,3)]); % Suppress noise by subtraction of noise spectrum
     else % multichannel
@@ -447,9 +446,9 @@ if ~isempty(audiofile)
     disp(['Adding white noise dither at ',num2str(20*log10(1/2^(bitdepth-1))), ' dB to mask quantization errors in audio sampled at ',num2str(bitdepth),' bit depth.'])
     outputWave = outputWave + 1/2^(bitdepth-1)*repmat(2*rand(size(outputWave,1),1)-1, [1, size(outputWave,2)]); % Add white noise dither at relevant bit depth amplitude limit
     if strcmpi(filetype,'.wav') || strcmpi(filetype,'.flac')
-        audiowrite( fullfile([outpath,filename,suffix,filetype]) , outputWave , srtime, 'BitsPerSample', bitdepth)
+        audiowrite( fullfile([outpath, filesep, filename, suffix, filetype]) , outputWave , srtime, 'BitsPerSample', bitdepth)
     else % Else if is lossy format that does not support definition of BitsPerSample
-        audiowrite( fullfile([outpath,filename,suffix,filetype]) , outputWave , srtime)
+        audiowrite( fullfile([outpath, filesep, filename, suffix, filetype]) , outputWave , srtime)
     end
     disp('Completed saving audio with noise suppression.')
     
@@ -459,19 +458,18 @@ if ~isempty(audiofile)
         [~,filename,filetype] = fileparts(audiofile);
         % If overwriting files is not permitted in the options and the output file already exists,
         % ask the user to confirm overwriting or changing the output file
-        if overwrite == false && exist(fullfile([outpath,filename,'_noise',filetype]),'file') == 2
-            warning(['File ',fullfile([outpath,filename,'_noise',filetype]),' already exists.'])
+        if overwrite == false && exist(fullfile([outpath, filesep, filename,'_noise', filetype]),'file') == 2
+            warning(['File ',fullfile([outpath, filesep, filename,'_noise', filetype]),' already exists.'])
             [filename, outpath] = uiputfile({'*.wav';'*.flac';'*.mp3';'*.m4a';'*.mp4';'*.ogg'}, 'Save noise as...', [outpath,filename,'_noise',filetype]);
             if filename==0
                 error('Please select an output file.')
             end
             [outpath,filename,filetype] = fileparts(fullfile([outpath,filename])); % Reconstruct the output path, file name, and file type
-            outpath = [outpath,filesep]; % Restore the system-specific sign between the path and file name
             suffix = ''; % Apply the user specied file name without the default suffix
         else
             suffix = '_noise'; % Apply the default suffix
         end
-        disp(['Saving ',num2str(duration),' seconds audio with estimated noise to ''',fullfile([outpath,filename,suffix,filetype]),'''...'])
+        disp(['Saving ',num2str(duration),' seconds audio with estimated noise to ''',fullfile([outpath, filesep, filename,suffix, filetype]),'''...'])
         if mono
             outputSpectrogram = repmat( noisespect_est , [1, duration*srtfr]); % Estimated noise spectrum
         else % mutichannel
@@ -486,15 +484,14 @@ if ~isempty(audiofile)
         disp(['Adding white noise dither at ',num2str(20*log10(1/2^(bitdepth-1))), ' dB to mask quantization errors in audio sampled at ',num2str(bitdepth),' bit depth.'])
         outputWave = outputWave + 1/2^(bitdepth-1)*repmat(2*rand(size(outputWave,1),1)-1, [1, size(outputWave,2)]); % Add white noise dither at relevant bit depth amplitude limit
         if strcmpi(filetype,'.wav') || strcmpi(filetype,'.flac')
-            audiowrite( fullfile([outpath,filename,suffix,filetype]) , outputWave , srtime, 'BitsPerSample', bitdepth)
+            audiowrite( fullfile([outpath, filesep, filename, suffix, filetype]) , outputWave , srtime, 'BitsPerSample', bitdepth)
         else % Else if is lossy format that does not support definition of BitsPerSample
-            audiowrite( fullfile([outpath,filename,suffix,filetype]) , outputWave , srtime)
+            audiowrite( fullfile([outpath, filesep, filename, suffix, filetype]) , outputWave , srtime)
         end
     end
     
 end
 
 noise_audmed = 20*log10(noise_amplitude); % Output the audio medium noise amplitude estimates in dB (1 = Brownian (red), 2 = Pink, 3 = Blue, 4 = Violet, 5 = White)
-
 
 end

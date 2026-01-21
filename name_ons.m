@@ -133,7 +133,6 @@ if ~ischar(audio)
     error('audio variable must be a character array (string).')
 end
 [outpath, outname, outtype] = fileparts(audio); % Store audio filname and filetype
-outpath = [outpath, filesep]; 
 framedur = p.Results.framedur; % Time frame duration in milliseconds for the TFR analysis (default = 100)
 if ~isnumeric(framedur)  || length(framedur) ~= 1
     error('framedur variable must be a positive value. The default is 100.')
