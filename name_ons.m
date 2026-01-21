@@ -207,10 +207,10 @@ end
 %% Suppress audio medium noise spectrum
 
 if ns
-    if overwrite == false && exist([outpath, outname,'_ns',outtype],'file')
+    if overwrite == false && exist([outpath, filesep, outname,'_ns',outtype],'file')
         % Skip if not allowed to overwrite existing files and the noise suppressed audio file already exists
         
-        disp(['Using already existing audio file with noise suppression: ',outpath, outname,'_ns',outtype])
+        disp(['Using already existing audio file with noise suppression: ',outpath, filesep, outname,'_ns',outtype])
         
     else
         disp('Suppressing audio medium noise...')
@@ -227,7 +227,7 @@ end
 
 disp('Detecting sound onsets using finetuned functions from the Music Information Retrieval (MIR) toolbox.')
 if ns
-    a = miraudio([outpath, outname,'_ns',outtype]);
+    a = miraudio([outpath, filesep, outname,'_ns',outtype]);
 else
     a = miraudio(audio);
 end
@@ -333,21 +333,20 @@ if audiosave
     end
     % If overwriting files is not permitted in the options and the output file already exists, 
     % ask the user to confirm overwriting or changing the output file
-    if overwrite == false && exist([outpath, outname, outsuffix, '_onsets', outtype],'file') == 2
-        warning(['File ',[outpath, outname, outsuffix, '_onsets', outtype],' already exists.'])
+    if overwrite == false && exist([outpath, filesep, outname, outsuffix, '_onsets', outtype],'file') == 2
+        warning(['File ',[outpath, filesep, outname, outsuffix, '_onsets', outtype],' already exists.'])
         [outname, outpath] = uiputfile({'*.wav';'*.flac';'*.mp3';'*.m4a';'*.mp4';'*.ogg'}, 'Save audio with onsets as...', [outpath, outname, outsuffix, '_onsets', outtype]);
         if outname==0
             error('Please select an output file.')
         end
-        [outpath,outname,filetype] = fileparts([outpath, outname]); % Reconstruct the output path, file name, and file type
-        outpath = [outpath,filesep]; % Restore the system-specific sign between the path and file name
+        [outpath,outname,filetype] = fileparts([outpath, filesep, outname]); % Reconstruct the output path, file name, and file type
         outsuffix = ''; % Apply the user specied file name with no additional user predefined suffix
         suffix = ''; % Apply the user specied file name without the default suffix
     else
         suffix = '_onsets'; % Apply the default suffix
     end
-    audiowrite( [outpath, outname, outsuffix, suffix, outtype], outputWave, srtime );
-    disp(['Audio with onsets were saved to ',[outpath, outname, outsuffix, suffix, outtype]])
+    audiowrite( [outpath, filesep, outname, outsuffix, suffix, outtype], outputWave, srtime );
+    disp(['Audio with onsets were saved to ',[outpath, filesep, outname, outsuffix, suffix, outtype]])
 
 end
 
@@ -367,15 +366,12 @@ if onsave % If chosen, save Matlab vector with the detected sound onsets, energy
         if outname==0
             error('Please select an output file.')
         end
-        [outpath,outname,filetype] = fileparts([outpath,outname]); % Reconstruct the output path, file name, and file type
-        outpath = [outpath,filesep]; % Restore the system-specific sign between the path and file name
+        [outpath,outname,filetype] = fileparts([outpath, filesep, outname]); % Reconstruct the output path, file name, and file type
         outsuffix = ''; % Apply the user specied file name with no additional user predefined suffix
     end
-    save([outpath, outname, outsuffix],'onsets','ons');
-    disp(['Onsets in seconds and detection settings were saved to ''',[outpath, outname, outsuffix],'.mat''.'])
+    save([outpath, filesep, outname, outsuffix],'onsets','ons');
+    disp(['Onsets in seconds and detection settings were saved to ''',[outpath, filesep, outname, outsuffix],'.mat''.'])
     
 end
 
-
 end
-
