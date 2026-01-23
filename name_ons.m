@@ -334,7 +334,7 @@ if audiosave
     % ask the user to confirm overwriting or changing the output file
     if overwrite == false && exist([outpath, filesep, outname, outsuffix, '_onsets', outtype],'file') == 2
         warning(['File ',[outpath, filesep, outname, outsuffix, '_onsets', outtype],' already exists.'])
-        [outname, outpath] = uiputfile({'*.wav';'*.flac';'*.mp3';'*.m4a';'*.mp4';'*.ogg'}, 'Save audio with onsets as...', [outpath, outname, outsuffix, '_onsets', outtype]);
+        [outname, outpath] = uiputfile({'*.wav';'*.flac';'*.mp3';'*.m4a';'*.mp4';'*.ogg'}, 'Save audio with onsets as...', [outpath, filesep, outname, outsuffix, '_onsets', outtype]);
         if outname==0
             error('Please select an output file.')
         end
@@ -359,19 +359,18 @@ if onsave % If chosen, save Matlab vector with the detected sound onsets, energy
 
     % If overwriting files is not permitted in the options and the output file already exists,
     % ask the user to confirm overwriting or changing the output file
-    if overwrite == false && exist([outpath, outname, outsuffix,'.mat'],'file') == 2
-        warning(['File ',[outpath, outname, outsuffix],' already exists.'])
-        [outname, outpath] = uiputfile('*.mat', 'Save onsets as...', [outpath, outname, outsuffix,'.mat']);
+    if overwrite == false && exist([outpath, filesep, outname, outsuffix,'.mat'],'file') == 2
+        warning(['File ',[outpath, filesep, outname, outsuffix],' already exists.'])
+        [outname, outpath] = uiputfile('*.mat', 'Save onsets as...', [outpath, filesep, outname, outsuffix,'.mat']);
         if outname==0
             error('Please select an output file.')
         end
-        [outpath,outname,filetype] = fileparts([outpath, filesep, outname]); % Reconstruct the output path, file name, and file type
+        [outpath, outname, filetype] = fileparts([outpath, outname]); % Reconstruct the output path, file name, and file type
         outsuffix = ''; % Apply the user specied file name with no additional user predefined suffix
     end
     save([outpath, filesep, outname, outsuffix],'onsets','ons');
     disp(['Onsets in seconds and detection settings were saved to ''',[outpath, filesep, outname, outsuffix],'.mat''.'])
     
 end
-
 
 end
