@@ -1,5 +1,5 @@
 
 <script>
-    var audio = new Audio('https://github.com/user/project/blob/main/audio/sound.mp3?raw=true');
+    var audio = new Audio('https://github.com/nielsthaumann/nameeg/blob/main/decoding_results/Adios_short_onsets_EEG_decoded.mp3);
     audio.play();
 </script>
